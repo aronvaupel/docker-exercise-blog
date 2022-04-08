@@ -5,14 +5,15 @@ import Link from 'next/link'
 import { useState } from 'react'
 
 export const getStaticProps: GetStaticProps = () => {
-  const fileArray = fs.readdirSync('_posts')
+  // once per page, (bc no two functions can have the same name :-) )
+  const fileArray = fs.readdirSync('_posts') // readdirSync creates an array of filenames
   const posts = fileArray.map((singleFileName) => {
-    const slug = singleFileName.replace('.md', '')
-    const post = fs.readFileSync(`_posts/${singleFileName}`, 'utf-8')
-    const { data: metadata } = matter(post)
+    const slug = singleFileName.replace('.md', '') // cut out file extensions
+    const post = fs.readFileSync(`_posts/${singleFileName}`, 'utf-8') // bc we map here, we can save the file contents in 'post' since we need to access the yaml metadata
+    const { data: metadata } = matter(post) //parses md and extract 'data' from the 'YAML- part' of the file which is called front matter in md
     return {
-      slug,
-      metadata,
+      slug: slug,
+      metadata: metadata, // can be shortend, bc key and value are the same
     }
   })
   return {
@@ -22,7 +23,7 @@ export const getStaticProps: GetStaticProps = () => {
   }
 }
 
-type MetaData = {
+export interface MetaData {
   title: string
   author: string
   date: string
@@ -30,7 +31,7 @@ type MetaData = {
   tags: string[]
 }
 
-type Props = {
+interface Props {
   fileArray: {
     slug: string
     metadata: MetaData
@@ -58,7 +59,7 @@ const Blog = ({ fileArray }: Props) => {
         <input
           className="w-full h-6 border border-slate-800 p-4"
           type="search"
-          onChange={(event) => setQuery(event.target.value)}
+          onChange={(event) => setQuery(event.target.value)} // in larger project use "debouncing", which will delay the search execution
         />
       </div>
 
