@@ -3,6 +3,8 @@ import matter from 'gray-matter'
 import fs from 'fs'
 import Link from 'next/link'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import LanguageButton from '../../components/LanguageButton'
 
 export const getStaticProps: GetStaticProps = () => {
   // once per page, (bc no two functions can have the same name :-) )
@@ -39,6 +41,7 @@ interface Props {
 }
 
 const Blog = ({ fileArray }: Props) => {
+  const { t } = useTranslation()
   const [query, setQuery] = useState('')
 
   const filterFunction = (post: typeof fileArray[0]) => {
@@ -55,9 +58,15 @@ const Blog = ({ fileArray }: Props) => {
 
   return (
     <div className="p-8">
+      <LanguageButton />
+      <section className="w-full">
+        <h1>{t('test:header')}</h1>
+        <p>{t('test:text')}</p>
+      </section>
+
       <div>
         <input
-          className="w-full h-6 border border-slate-800 p-4"
+          className="w-full h-6 border border-slate-800 p-4 my-8"
           type="search"
           onChange={(event) => setQuery(event.target.value)} // in larger project use "debouncing", which will delay the search execution
         />
@@ -67,7 +76,10 @@ const Blog = ({ fileArray }: Props) => {
         <Link href={`/blog/${singlePost.slug}`}>
           <a>
             <div>
-              <h2>{singlePost.metadata.title}</h2>
+              <header>
+                <h1>{singlePost.metadata.title}</h1>
+              </header>
+
               <div>
                 <p>by:{singlePost.metadata.author}</p>
                 <p>created:{singlePost.metadata.date}</p>
