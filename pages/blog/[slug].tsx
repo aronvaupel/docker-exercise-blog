@@ -3,6 +3,8 @@ import fs from 'fs'
 import matter from 'gray-matter'
 import { MetaData } from '.'
 import md from 'markdown-it'
+import Head from 'next/head'
+import { t } from 'i18next'
 
 interface Props {
   frontMatter: MetaData
@@ -11,10 +13,23 @@ interface Props {
 
 export default function BlogPost({ frontMatter, content }: Props) {
   return (
-    <div
-      className="mx-auto prose"
-      dangerouslySetInnerHTML={{ __html: md().render(content) }}
-    />
+    <>
+      <Head>
+        <title>{frontMatter.title}</title>
+        <meta http-equiv="Content-Type" content="text/html, charset=utf-8" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1"
+        />
+        <meta name="author" content={frontMatter.author} />
+        <meta name="description" content={frontMatter.description} />
+        <meta name="keywords" content={frontMatter.tags.join(' ')} />
+      </Head>
+      <div
+        className="mx-auto prose"
+        dangerouslySetInnerHTML={{ __html: md().render(content) }}
+      />
+    </>
   )
 }
 

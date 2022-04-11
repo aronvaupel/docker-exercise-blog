@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import LanguageButton from '../../components/LanguageButton'
+import Head from 'next/head'
 
 export const getStaticProps: GetStaticProps = () => {
   // once per page, (bc no two functions can have the same name :-) )
@@ -31,6 +32,7 @@ export interface MetaData {
   date: string
   image: string
   tags: string[]
+  description: string
 }
 
 interface Props {
@@ -57,39 +59,52 @@ const Blog = ({ fileArray }: Props) => {
   }
 
   return (
-    <div className="p-8">
-      <LanguageButton />
-      <section className="w-full">
-        <h1>{t('test:header')}</h1>
-        <p>{t('test:text')}</p>
-      </section>
-
-      <div>
-        <input
-          className="w-full h-6 border border-slate-800 p-4 my-8"
-          type="search"
-          onChange={(event) => setQuery(event.target.value)} // in larger project use "debouncing", which will delay the search execution
+    <>
+      <Head>
+        <title>Blog</title>
+        <meta http-equiv="Content-Type" content="text/html, charset=utf-8" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1"
         />
-      </div>
+        <meta name="Aron" content="Overview and links to blog posts" />
+        <meta name="description" content="Blog links" />
+        <meta name="keywords" content={t('home:head.keywords')} />
+      </Head>
+      <div className="p-8">
+        <LanguageButton />
+        <section className="w-full">
+          <h1>{t('test:header')}</h1>
+          <p>{t('test:text')}</p>
+        </section>
 
-      {fileArray.filter(filterFunction).map((singlePost) => (
-        <Link href={`/blog/${singlePost.slug}`}>
-          <a>
-            <div>
-              <header>
-                <h1>{singlePost.metadata.title}</h1>
-              </header>
+        <div>
+          <input
+            className="w-full h-6 border border-slate-800 p-4 my-8"
+            type="search"
+            onChange={(event) => setQuery(event.target.value)} // in larger project use "debouncing", which will delay the search execution
+          />
+        </div>
 
+        {fileArray.filter(filterFunction).map((singlePost) => (
+          <Link href={`/blog/${singlePost.slug}`}>
+            <a>
               <div>
-                <p>by:{singlePost.metadata.author}</p>
-                <p>created:{singlePost.metadata.date}</p>
+                <header>
+                  <h1>{singlePost.metadata.title}</h1>
+                </header>
+
+                <div>
+                  <p>by:{singlePost.metadata.author}</p>
+                  <p>created:{singlePost.metadata.date}</p>
+                </div>
+                <img src={`${singlePost.metadata.image}`} alt="an image" />
               </div>
-              <img src={`${singlePost.metadata.image}`} alt="an image" />
-            </div>
-          </a>
-        </Link>
-      ))}
-    </div>
+            </a>
+          </Link>
+        ))}
+      </div>
+    </>
   )
 }
 

@@ -6,6 +6,7 @@ image: '/3.jpg'
 tags:
   - amet
   - consetetur
+description: 'Lorem something'
 ---
 
 # Headline

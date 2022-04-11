@@ -3,13 +3,15 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@types/i18next": "^13.0.0",
     "@types/react-i18next": "^8.1.0",
     "gray-matter": "^4.0.3",
     "i18next": "^21.6.14",
+    "i18next-browser-languagedetector": "^6.1.4",
     "markdown-it": "^12.3.2",
     "next": "latest",
     "react": "^17.0.2",
@@ -17,17 +19,18 @@
     "react-i18next": "^11.16.2"
   },
   "devDependencies": {
-    "@types/i18next": "^13.0.0",
-    "@types/react-i18next": "^8.1.0",
+    "next-sitemap": "^2.5.13",
     "@tailwindcss/typography": "^0.5.2",
+    "@types/i18next": "^13.0.0",
     "@types/markdown-it": "^12.2.3",
     "@types/node": "17.0.4",
     "@types/react": "17.0.38",
-    "autoprefixer": "^10.4.0",
-    "postcss": "^8.4.5",
-    "prettier": "^2.5.1",
-    "prettier-plugin-tailwindcss": "^0.1.1",
-    "tailwindcss": "^3.0.7",
+    "@types/react-i18next": "^8.1.0",
+    "autoprefixer": "^10.4.4",
+    "postcss": "^8.4.12",
+    "prettier": "^2.6.2",
+    "prettier-plugin-tailwindcss": "^0.1.8",
+    "tailwindcss": "^3.0.23",
     "typescript": "4.5.4"
   }
 }

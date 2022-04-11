@@ -6,6 +6,7 @@ image: '/2.jpg'
 tags:
   - dolor
   - sit
+description: 'Lorem something'
 ---
 
 # Headline

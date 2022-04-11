@@ -6,6 +6,7 @@ image: '/1.jpg'
 tags:
   - Lorem
   - ipsum
+description: 'Lorem something'
 ---
 
 # Headline

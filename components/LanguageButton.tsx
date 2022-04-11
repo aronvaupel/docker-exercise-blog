@@ -1,7 +1,10 @@
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const LanguageButton = () => {
+  const router = useRouter()
+  const { pathname, asPath, query } = router
   const [lang, setLang] = useState('de')
   const [buttonText, setButtonText] = useState<string>('Deutsch')
 
@@ -9,6 +12,7 @@ const LanguageButton = () => {
 
   const changeLang = (lang: string) => {
     i18n.changeLanguage(lang)
+    router.push({ pathname, query }, asPath, { locale: lang })
   }
   return (
     <div className="w-24 h-6 mb-16">
