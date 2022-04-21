@@ -17,44 +17,36 @@ export const getStaticProps: GetStaticProps = async () => {
     },
   }
 }
-
-export interface MetaData {
+export type Post = {
+  id: number
+  createdAt: string
   title: string
-  author: string
-  date: string
-  image: string
   tags: string[]
-  description: string
-}
-
-interface Props {
-  fileArray: {
+  image: string
+  author: {
     id: number
-    createdAt: string
-    title: string
-    author: {
-      id: number
-      name: string
-      email: string
-    }
-  }[]
+    name: string
+    email: string
+  }
+  content: string
+}
+interface Props {
+  fileArray: Post[]
 }
 
 const Blog = ({ fileArray }: Props) => {
   const { t } = useTranslation()
   const [query, setQuery] = useState('')
 
-  // const filterFunction = (post: typeof fileArray[0]) => {
-  //   if (!query) {
-  //     return true
-  //   }
-  //   return (
-  //     post.tags
-  //       .map((tag) => tag.toLowerCase())
-  //       .includes(query.toLowerCase()) ||
-  //     post.author.name.toLowerCase().includes(query.toLowerCase())
-  //   )
-  // }
+  const filterFunction = (post: typeof fileArray[0]) => {
+    if (!query) {
+      return true
+    }
+    return (
+      post.tags.map((tag) => tag.toLowerCase()).includes(query.toLowerCase()) ||
+      post.author.name.toLowerCase().includes(query.toLowerCase())
+    )
+  }
 
   return (
     <>
@@ -84,8 +76,8 @@ const Blog = ({ fileArray }: Props) => {
           />
         </div>
 
-        {fileArray.map((singlePost) => (
-          <Link href={`/blog/${singlePost.id}`}>
+        {fileArray.filter(filterFunction).map((singlePost) => (
+          <Link key={singlePost.id} href={`/blog/${singlePost.id}`}>
             <a>
               <div>
                 <header>
@@ -96,7 +88,7 @@ const Blog = ({ fileArray }: Props) => {
                   <p>by:{singlePost.author.name}</p>
                   <p>created:{singlePost.createdAt}</p>
                 </div>
-                {/* <img src={`${singlePost.image}`} alt="an image" /> */}
+                {<img src={`${singlePost.image}`} alt="an image" />}
               </div>
             </a>
           </Link>
